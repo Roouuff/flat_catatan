@@ -1,56 +1,95 @@
-# Dokumentasi Project: Aplikasi Catatan Harian (Flutter)
+# Catatan Harian
 
-Nama      : Muhammad Abdul Rouf
-Kelas     : Teknik Informatika
+Aplikasi catatan harian sederhana berbasis Flutter. Dibuat sebagai tugas project penggunaan paket/plugin dari [pub.dev](https://pub.dev), dengan fitur utama menyimpan catatan secara lokal dan menampilkan tanggal pembuatannya.
 
-## 1. Deskripsi Aplikasi
-Aplikasi Catatan Harian adalah aplikasi mobile sederhana untuk menulis, melihat, mengubah, dan menghapus catatan. Setiap catatan menampilkan tanggal dan jam pembuatan dalam format bahasa Indonesia. Data tersimpan di perangkat sehingga tidak hilang setelah aplikasi ditutup.
+## Fitur
 
-## 2. Paket yang Digunakan
-| Paket | Versi (lihat pubspec.yaml) | Fungsi dalam aplikasi |
-|---|---|---|
-| shared_preferences | ......... | Menyimpan daftar catatan secara lokal (format JSON) |
-| intl | ......... | Memformat tanggal, misalnya "Senin, 2 November 2026 • 19:56" |
+- Tambah, ubah, dan hapus catatan dengan validasi judul dan isi tidak boleh kosong.
+- Tanggal dan jam pembuatan tampil dalam bahasa Indonesia, misalnya `Senin, 2 November 2026 • 19:56`.
+- Data tersimpan di perangkat dan tetap ada setelah aplikasi ditutup.
+- **Sidebar** (ikon menu kiri atas) dengan tiga menu:
+  - **Semua Catatan**: catatan biasa yang tidak terkunci.
+  - **Catatan Terkunci**: catatan yang dilindungi PIN 4 angka. PIN dibuat saat menu ini dibuka pertama kali.
+  - **Baru Dihapus**: catatan yang dihapus. Bisa dipulihkan atau dihapus permanen, dan otomatis dihapus permanen setelah 30 hari.
+- **Tema gelap/terang** (ikon kanan atas). Pilihan tersimpan.
+- **Tiga pilihan tampilan** (ikon kanan atas): daftar, kartu, dan kisi. Pilihan tersimpan.
+- Menu titik tiga (⋮) pada setiap catatan: ubah, kunci/lepas kunci, hapus (atau pulihkan/hapus permanen di Baru Dihapus).
+- Tombol **URUNGKAN** muncul setelah menghapus catatan.
 
-Sumber: https://pub.dev/packages/shared_preferences dan https://pub.dev/packages/intl
+## Paket yang Digunakan
 
-## 3. Langkah Implementasi
-1. Membuat proyek Flutter `catatan_application` di Visual Studio Code.
-2. Mencari paket `shared_preferences` dan `intl` di pub.dev.
-3. Menambahkan paket dengan `flutter pub add shared_preferences intl`.
-4. Menjalankan `flutter pub get`.
-5. Mengimpor paket di `lib/main.dart`.
-6. Membuat model `Catatan`, halaman daftar, dan halaman form.
-7. Menjalankan aplikasi di emulator Android.
-8. Menguji seluruh fitur.
+| Paket | Fungsi dalam aplikasi |
+|---|---|
+| [`shared_preferences`](https://pub.dev/packages/shared_preferences) | Menyimpan daftar catatan (JSON), PIN, pilihan tema, dan pilihan tampilan secara lokal. |
+| [`intl`](https://pub.dev/packages/intl) | Memformat tanggal dan jam dalam bahasa Indonesia (`id_ID`). |
 
-## 4. Potongan Kode Penting
-(Tempel potongan kode `pubspec.yaml` bagian dependencies dan fungsi `_simpanCatatan` / `_muatCatatan`.)
+## Struktur Proyek
 
-## 5. Hasil Pengujian
-| No | Skenario Uji | Hasil yang Diharapkan | Hasil Aktual | Status |
-|---|---|---|---|---|
-| 1 | Membuka aplikasi pertama kali | Tampil pesan "Belum ada catatan" | | |
-| 2 | Menambah catatan baru | Catatan muncul di daftar dengan tanggal | | |
-| 3 | Menyimpan dengan judul kosong | Muncul pesan "Judul wajib diisi" | | |
-| 4 | Menyimpan dengan isi kosong | Muncul pesan "Isi catatan wajib diisi" | | |
-| 5 | Mengetuk catatan untuk mengubah | Form terisi data lama, perubahan tersimpan | | |
-| 6 | Geser catatan ke kiri | Catatan terhapus, muncul SnackBar | | |
-| 7 | Tekan "URUNGKAN" setelah hapus | Catatan kembali ke daftar | | |
-| 8 | Tutup aplikasi lalu buka lagi | Semua catatan masih ada (shared_preferences) | | |
-| 9 | Cek format tanggal | Tanggal dalam bahasa Indonesia (intl) | | |
-| 10 | Tekan ikon menu (kiri atas) | Sidebar terbuka dengan 3 menu: Semua Catatan, Catatan Terkunci, Baru Dihapus | | |
-| 11 | Tekan ikon tema (kanan atas) | Tema berganti gelap/terang, pilihan tetap tersimpan setelah aplikasi dibuka ulang | | |
-| 12 | Tekan ikon tampilan (kanan atas) | Muncul 3 pilihan: Daftar, Kartu, Kisi; tampilan berubah sesuai pilihan dan tersimpan | | |
-| 13 | Aktifkan "Kunci catatan" lalu simpan | Catatan hilang dari Semua Catatan dan pindah ke Catatan Terkunci | | |
-| 14 | Buka Catatan Terkunci pertama kali | Diminta membuat PIN 4 angka, lalu ulangi PIN | | |
-| 15 | Buka Catatan Terkunci dengan PIN salah / benar | PIN salah ditolak; PIN benar menampilkan catatan terkunci | | |
-| 16 | Hapus catatan (menu titik tiga) | Catatan pindah ke Baru Dihapus, muncul SnackBar "URUNGKAN" | | |
-| 17 | Pulihkan catatan di Baru Dihapus | Catatan kembali ke halaman asalnya | | |
-| 18 | Hapus permanen / Kosongkan di Baru Dihapus | Muncul konfirmasi, lalu catatan hilang selamanya | | |
+```
+catatan_application/
+├── lib/
+│   └── main.dart        # seluruh kode aplikasi
+├── pubspec.yaml         # dependencies
+└── README.md
+```
 
-## 6. Screenshot
-(Sisipkan screenshot: daftar kosong, form tambah, daftar berisi, form ubah, hapus, data tetap ada setelah restart.)
+Kelas utama di `lib/main.dart`:
 
-## 7. Kesimpulan
-(Tulis kesimpulan: paket berhasil dipakai, fitur berjalan, kendala yang ditemui dan solusinya.)
+- `CatatanApp`: aplikasi dan pengaturan tema terang/gelap.
+- `Catatan`: model data (judul, isi, tanggal, status terkunci, status dihapus).
+- `HomePage`: halaman utama, sidebar, daftar catatan, dan logika PIN serta sampah.
+- `FormCatatanPage`: form tambah dan ubah catatan.
+
+## Cara Menjalankan
+
+Prasyarat: [Flutter SDK](https://docs.flutter.dev/get-started/install) terpasang dan `flutter doctor` tidak menunjukkan masalah berarti.
+
+1. Buka folder proyek, lalu pasang paket:
+
+   ```bash
+   flutter pub add shared_preferences intl
+   flutter pub get
+   ```
+
+   Setelah itu `pubspec.yaml` berisi:
+
+   ```yaml
+   dependencies:
+     flutter:
+       sdk: flutter
+     shared_preferences: ^x.x.x
+     intl: ^x.x.x
+   ```
+
+2. Jalankan aplikasi:
+
+   ```bash
+   flutter run
+   ```
+
+   Pilih perangkat yang tersedia (emulator Android, HP, atau Chrome). Untuk Chrome dengan port tetap:
+
+   ```bash
+   flutter run -d web-server --web-port=5000
+   ```
+
+   lalu buka `http://localhost:5000`.
+
+## Cara Menggunakan
+
+1. Tekan tombol **+** untuk membuat catatan, isi judul dan isi, lalu tekan **Simpan**.
+2. Ketuk catatan untuk mengubahnya, atau tekan titik tiga (⋮) untuk memilih ubah, kunci, atau hapus.
+3. Buka sidebar lewat ikon menu di kiri atas untuk berpindah antar halaman.
+4. Ganti tema dan tampilan lewat dua ikon di kanan atas.
+5. Untuk mengunci catatan, aktifkan saklar **Kunci catatan** di form atau pilih **Kunci** dari menu titik tiga. Catatan terkunci hanya tampil di **Catatan Terkunci** setelah memasukkan PIN.
+
+## Pengujian
+
+Skenario pengujian ada di `dokumentasi_pengujian.md` (17 skenario), mencakup tambah/ubah/hapus catatan, validasi form, penyimpanan setelah aplikasi ditutup, format tanggal, sidebar, tema, tampilan, PIN, dan sampah.
+
+## Catatan
+
+- PIN disimpan apa adanya di `shared_preferences`. Ini pengamanan sederhana untuk keperluan belajar dan bukan enkripsi.
+- Di Chrome, data tersimpan di `localStorage` yang terpisah untuk setiap port. Pakai port tetap (`--web-port`) agar catatan tidak tampak hilang. Menghapus data browser juga menghapus catatan dan PIN.
+- `initializeDateFormatting('id_ID', null)` di fungsi `main()` wajib ada. Tanpa itu, format tanggal berbahasa Indonesia menimbulkan error `LocaleDataException`.
+- Catatan versi lama (tanpa field terkunci dan dihapus) tetap terbaca dan tampil di Semua Catatan.
